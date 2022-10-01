@@ -17,6 +17,7 @@ const connection = mysql.createConnection({
 router.post("/", (req, res) => {
   const mybatisMapper = require("mybatis-mapper");
   var param = req.body;
+  console.log("req.body : ", req.body);
 
   //mybatis mapper경로 설정
   mybatisMapper.createMapper(["./models/" + param.mapper + ".xml"]);
@@ -25,7 +26,7 @@ router.post("/", (req, res) => {
   console.log("\n Called Mapper Name  = " + param.mapper);
 
   var format = { language: "sql", indent: "  " };
-  //mysql 쿼리 정보 세팅
+  //mysql 쿼리 정보 세팅, F12
   var query = mybatisMapper.getStatement(
     param.mapper,
     param.mapper_id,
@@ -45,6 +46,7 @@ router.post("/", (req, res) => {
     var time2 = new Date();
     console.log("## " + time2 + " ##");
     console.log("## RESULT DATA LIST ## : \n", results);
+    // convert database format to json format
     string = JSON.stringify(results);
     var json = JSON.parse(string);
     res.send({ json });

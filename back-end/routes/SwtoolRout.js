@@ -11,7 +11,8 @@ router.post("/", (req, res, next) => {
     try {
       //Mysql Api 모듈(crud)
       var dbconnect_Module = require("./dbconnect_Module");
-
+      console.log("Excute SwtoolRout.js");
+      console.log("Excute SwtoolRout.js");
       // Mysql 쿼리 호출 정보 입력
       req.body.mapper = "SwToolsMapper"; //mybatis xml 파일명
       req.body.crud = "select"; // select, insert, update, delete 중에입력
