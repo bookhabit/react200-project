@@ -5,8 +5,11 @@ const bodyParser = require("body-parser");
 
 router.use(bodyParser.json());
 
-//mysql 서버 접속 정보
-const connection = mysql.createConnection({
+// Connection Pool 세팅
+const pool = mysql.createPool({
+  connectionLimit: 66,
+  waitForConnections: true,
+  //mysql 서버 접속 정보
   host: "react200.chlq28a07dcl.ap-northeast-1.rds.amazonaws.com",
   port: "3306",
   database: "react",
@@ -39,18 +42,31 @@ router.post("/", (req, res) => {
   );
   console.log(query + "\n");
 
-  connection.query(query, function (error, results) {
-    if (error) {
-      console.log("db error************* : " + error);
-    }
-    var time2 = new Date();
-    console.log("## " + time2 + " ##");
-    console.log("## RESULT DATA LIST ## : \n", results);
-    // convert database format to json format
-    string = JSON.stringify(results);
-    var json = JSON.parse(string);
-    res.send({ json });
-    console.log("========= Node Mybatis Query Log End =========\n");
+  pool.getConnection(function (err, connection) {
+    connection.query(query, function (error, results) {
+      if (error) {
+        console.log("db error************* : " + error);
+      }
+      var time2 = new Date();
+      console.log("## " + time2 + " ##");
+      console.log("## RESULT DATA LIST ## : \n", results);
+      if (results != undefined) {
+        string = JSON.stringify(results);
+        var json = JSON.parse(string);
+        if (req.body.crud == "select") {
+          // 조회할 때는 DB에서 조회한 데이터를 json형태로 담아서 react페이지로 보낸다.
+          res.send({ json });
+        } else {
+          //등록insert 수정update 삭제 delete인 경우에 해당하는데, 쿼리 실행이 성공했을 경우 succ라는 문자열을 전송한다
+          res.send("succ");
+        }
+      } else {
+        res.send("error");
+      }
+
+      connection.release();
+      console.log("========= Node Mybatis Query Log End =========\n");
+    });
   });
 });
 
