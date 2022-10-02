@@ -11,6 +11,7 @@ import "./css/new.css";
 import Header from "./components/Header/Header admin";
 import Footer from "./components/Footer/Footer";
 import SoftwareView from "./SoftwareToolsManage/SoftwareView";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <p>hello</p>
       <Header />
       <Routes>
+        <Route path="/" element={<LoginForm />} />
         <Route path="/reactProxy" element={<R109_reactProxy />} />
         <Route path="/ApiGetJson" element={<R110_ApiGetJson />} />
         <Route path="/ApiPostJson" element={<R111_ApiPostJson />} />
