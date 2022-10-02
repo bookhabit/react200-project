@@ -18,11 +18,7 @@ class SoftwareList extends Component {
 
   callSwToolListApi = async () => {
     axios
-      .post("/api/Swtool?type=list", {
-        mapper: "SwToolsMapper",
-        crud: "select",
-        mapper_id: "selectSwToolsList",
-      })
+      .post("/api/Swtool?type=list", {})
       .then((response) => {
         try {
           this.setState({ responseSwtoolList: response });

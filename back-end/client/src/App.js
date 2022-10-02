@@ -10,6 +10,7 @@ import SoftwareList from "./SoftwareToolsManage/SoftwareList";
 import "./css/new.css";
 import Header from "./components/Header/Header admin";
 import Footer from "./components/Footer/Footer";
+import SoftwareView from "./SoftwareToolsManage/SoftwareView";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/ApiGetJson" element={<R110_ApiGetJson />} />
         <Route path="/ApiPostJson" element={<R111_ApiPostJson />} />
         <Route path="/SoftwareList" element={<SoftwareList />} />
+        <Route path="/SoftwareView" element={<SoftwareView />} />
       </Routes>
       <Footer />
     </div>
